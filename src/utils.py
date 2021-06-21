@@ -9,11 +9,11 @@ from skimage.color import lab2rgb, rgb2lab
 from torch import nn
 from torch.utils.data import DataLoader
 from torchvision.models.resnet import resnet18
-
+from torchvision.utils import save_image
 from dataloader import ColorizationDataset
 
 
-def make_dataloaders(batch_size = 16, num_workers = 6, pin_memory = True, **kwargs):
+def make_dataloaders(batch_size = 16, num_workers = 1, pin_memory = True, **kwargs):
     dataset = ColorizationDataset(**kwargs)
     dataloader = DataLoader(dataset, batch_size=batch_size, num_workers = num_workers, pin_memory=pin_memory)
     return dataloader

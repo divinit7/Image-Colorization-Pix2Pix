@@ -15,29 +15,7 @@ from torch.utils.data import DataLoader, Dataset, dataloader
 from torchvision import transforms
 from torchvision.utils import make_grid
 
-# device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-
-# path = "C:/Users/chauh/Documents/Github/tutorial_notebooks/ImageCaptioning/input/train2014/"
-
-# paths = glob.glob(path+"/*.jpg")
-
-# # np.random.seed(9123)
-
-# paths_subset = np.random.choice(paths, 10_000, replace = False)
-# rand_idxs = np.random.permutation(10_000)
-# train_idxs = rand_idxs[:8000]
-# val_idxs = rand_idxs[8000:]
-# train_paths = paths_subset[train_idxs]
-# val_paths = paths_subset[val_idxs]
-
-# _, axes = plt.subplots(4, 4, figsize=(10, 10))
-# for ax, img_path in zip(axes.flatten(), train_paths):
-#     ax.imshow(Image.open(img_path))
-#     ax.axis("off")
-
-
 size = 128
-
 class ColorizationDataset(Dataset):
     def __init__(self, paths, split = 'train'):
         if split == 'train':

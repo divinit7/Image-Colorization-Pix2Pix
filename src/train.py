@@ -27,8 +27,9 @@ paths = glob.glob(path+"/*.jpg")
 
 np.random.seed(9123)
 
-paths_subset = np.random.choice(paths, 12_000, replace = False)
-rand_idxs = np.random.permutation(12_000)
+paths_subset = np.random.choice(paths, 12_000, replace = False) # randomly choosing 12000 images
+rand_idxs = np.random.permutation(12_000) # shufflling the indices
+
 train_idxs = rand_idxs[:10000]
 val_idxs = rand_idxs[10000:]
 train_paths = paths_subset[train_idxs]
@@ -43,6 +44,7 @@ for ax, img_path in zip(axes.flatten(), train_paths):
 size = 128
 
 class MainModel(nn.Module):
+    
     def __init__(self, net_G=None, lr_G=2e-4, lr_D=2e-4, beta1=0.5, beta2=0.999, lambda_L1=100.):
         super().__init__()
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu" )
@@ -155,14 +157,16 @@ if __name__ == '__main__':
     train_dl = make_dataloaders(paths=train_paths, split = 'train')
     val_dl = make_dataloaders(paths=val_paths, split = 'val')
 
-    # net_G = build_res_unet(n_input=1, n_output=2, size=256)
-    # optimizer = optim.Adam(net_G.parameters(), lr=1e-4)
-    # criterion = nn.L1Loss()
-    # pretrain_generator(net_G, train_dl, optimizer, criterion, 20)
-    # torch.save(net_G.state_dict(), "res18-unet.pt")
+    net_G = build_res_unet(n_input=1, n_output=2, size=256)
+    optimizer = optim.Adam(net_G.parameters(), lr=1e-4)
+    criterion = nn.L1Loss()
+    pretrain_generator(net_G, train_dl, optimizer, criterion, 20)
+    torch.save(net_G.state_dict(), "res18-unet.pt")
     
     net_G = build_res_unet(n_input=1, n_output=2, size=256)
     net_G.load_state_dict(torch.load("res18-unet.pt", map_location=device))
     model = MainModel(net_G=net_G)
-    # train_model(model, train_dl, 20)
+    train_model(model, train_dl, 20)
     valid_model(model, val_dl)
+
+# https://towardsdatascience.com/colorizing-black-white-images-with-u-net-and-conditional-gan-a-tutorial-81b2df111cd8

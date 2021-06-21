@@ -11,8 +11,9 @@ model = MainModel(net_G=net_G)
 model.load_state_dict(torch.load('final-trained-model.pt', map_location=device))
 example_input = torch.rand(1, 3, 224, 224)
 
+
 model.eval()
-traced_model = torch.jit.trace(model, example_input)
+traced_model = torch.jit.trace(model,example_inputs= model.setup_input(example_input))
 traced_model.save("./traced_model.pt")
 
 

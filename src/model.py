@@ -2,7 +2,8 @@ from torch import nn
 
 
 class UnetBlock(nn.Module):
-    def __init__(self, nf, ni, submodule = None, input_c = None, dropout =False, innermost = False, outermost = False):
+    def __init__(self, nf, ni, submodule = None, input_c = None, dropout =False,
+                 innermost = False, outermost = False):
         super().__init__()
         self.outermost = outermost
         if input_c is None:
